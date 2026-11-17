@@ -7,13 +7,13 @@ const pencil=[166,144,122,123,145,167,189,211,233,255,277,299,321,343,365,366,34
 export function LedCanvas({id,size=140,brightness=80,enabled=true,blink=true,seconds=300,speed=1,customs=[],pixels,label,levels,bearing}:Props){
  const ref=useRef<HTMLCanvasElement>(null);
  useEffect(()=>{
-  let current=id,previous='',nextChange=0;const started=Date.now();
+  let current=id,previous='',nextChange=0,currentStarted=Date.now();const started=Date.now();
   function draw(){
    const canvas=ref.current;if(!canvas)return;const ctx=canvas.getContext('2d');if(!ctx)return;
    const ratio=2;canvas.width=size*ratio;canvas.height=size*ratio;ctx.scale(ratio,ratio);
-   const group=collections.find(c=>c.id===id);if(group&&Date.now()>nextChange){const options=group.members.filter(x=>x!==previous);current=options[Math.floor(Math.random()*options.length)];previous=current;nextChange=Date.now()+3000;}
+   const group=collections.find(c=>c.id===id);if(group&&Date.now()>nextChange){const options=group.members.filter(x=>x!==previous);current=options[Math.floor(Math.random()*options.length)];previous=current;currentStarted=Date.now();const selected=animations.find(a=>a.id===current);nextChange=currentStarted+(selected?.pixels.length||36)/(selected?.fps||12)/speed*1000;}
    const custom=customs.find(c=>c.id===current);const anim=animations.find(a=>a.id===current);const now=new Date();
-   const index=Math.floor((Date.now()-started)/1000*(custom?.fps||12)*speed*(current==='SUNNY'?1/3:1));
+   const index=Math.floor((Date.now()-(group?currentStarted:started))/1000*(custom?.fps||anim?.fps||12)*speed*(current==='SUNNY'?1/3:1));
    let lit=pixels||custom?.pixels[index%custom.pixels.length]||anim?.pixels[index%(anim?.pixels.length||1)]||[];
    if(current==='CLOCK'&&!pixels)lit=clockPixels(now,blink);if(current==='SAND'&&!pixels)lit=timerPixels(seconds,now);if(current==='PENCIL')lit=pencil;
    if(current==='COMPASS'&&bearing!==undefined)lit=compassFrames[Math.round(bearing)%360];

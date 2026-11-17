@@ -1,12 +1,14 @@
 import raw from './data/animations.json';
-export type Animation = {id:string; name:string; cat:string; subcat?:string; isAvatar?:boolean; frames?:number; pixels:number[][]};
+export type Animation = {id:string; name:string; cat:string; subcat?:string; isAvatar?:boolean; frames?:number; fps?:number; pixels:number[][]};
 export type Custom = {id:string; name:string; pixels:number[][]; fps:number};
 export const animations = raw as Animation[];
 export const categories = [{id:'system',name:'系统',preview:'CLOCK'},{id:'emotion',name:'表情',preview:'heureux'},{id:'activity',name:'活动',preview:'RUNNER'},{id:'life',name:'生活',preview:'SUNNY'},{id:'ambience',name:'氛围',preview:'FIREFLY'},{id:'custom',name:'自定义',preview:'PENCIL'}];
 export const collections = [
  {id:'GROUP_DAILY',name:'日常心情',members:['neutre','heureux','hilare','surpris','timide','blase']},
  {id:'GROUP_PLAY',name:'灵动互动',members:['wink','play','curieux','thinking','attentif','fier']},
- {id:'GROUP_COMPANY',name:'陪伴时光',members:['idle','somnolent','EYE_GRIN','sleep','HEART','HEARTBEAT']}
+ {id:'GROUP_COMPANY',name:'陪伴时光',members:['idle','somnolent','EYE_GRIN','sleep','HEART','HEARTBEAT']},
+ {id:'GROUP_BIG_DAILY',name:'灵动大眼·日常',members:['BIG_NEUTRAL','BIG_LOOK_LEFT','BIG_LOOK_RIGHT','BIG_CURIOUS','BIG_HAPPY','BIG_WINK','BIG_FOCUS','BIG_SURPRISE']},
+ {id:'GROUP_BIG_MOOD',name:'灵动大眼·心情',members:['BIG_SLEEPY','BIG_SAD','BIG_ANGRY','BIG_SMUG','BIG_DIZZY','BIG_ALERT','BIG_HEART','BIG_SLEEP']}
 ];
 export const scenes = [{id:'call',name:'来电提醒',description:'来电时显示专属动画',style:'INCOMING_CALL'},{id:'emergency',name:'通知提醒',description:'指定应用消息到达时显示',style:'MAIL'},{id:'charge',name:'充电显示',description:'显示电量与充电动画',style:'CHARGE'},{id:'alarm',name:'闹钟提醒',description:'闹钟响起时显示',style:'SYSTEM_NOTICE'},{id:'timer',name:'计时结束',description:'倒计时归零时显示',style:'SUCCESS'},{id:'music',name:'音乐播放',description:'播放音乐时自动显示律动',style:'MUSIC_SCATTER'}];
 export type Settings = {enabled:boolean;brightness:number;duration:number;trigger:string;scheduled:boolean;start:string;end:string;dnd:boolean;alarmException:boolean;lowBattery:boolean;blink:boolean;defaultId:string;speed:number;sceneOn:Record<string,boolean>;sceneStyle:Record<string,string>;apps:string[];statuses:Record<string,boolean>;favorites:string[];customs:Custom[];stepGoal:number};
